@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0b0b">
+<title>Scooter Tuning Infos</title>
+<style>
+:root{--bg:#090909;--panel:#151515;--gold:#d7b66b;--muted:#aaa;--line:#2c2c2c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#f5f5f5;font-family:Arial,Helvetica,sans-serif}
+header{padding:22px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-weight:800;letter-spacing:2px;color:var(--gold);font-size:14px}
+nav a{color:#ddd;text-decoration:none;font-size:13px;margin-left:14px}
+main{max-width:1000px;margin:auto;padding:30px 18px 60px}
+.hero{padding:35px 0 28px}
+.eyebrow{color:var(--gold);letter-spacing:3px;font-size:11px;font-weight:bold}
+h1{font-size:clamp(34px,8vw,58px);line-height:1.02;margin:13px 0}
+h1 span{color:var(--gold)}
+.lead{color:#bbb;max-width:600px;line-height:1.6}
+.section-title{margin:30px 0 15px;font-size:21px}
+.brands,.models{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{background:linear-gradient(145deg,#1a1a1a,#101010);border:1px solid var(--line);border-radius:16px;padding:16px}
+.brand-card{min-height:135px;text-align:left;color:white;cursor:pointer}
+.brand-card strong{display:block;font-size:18px;margin:8px 0;color:var(--gold)}
+.brand-card small{color:var(--muted)}
+.model-card{cursor:pointer;text-align:left;color:white;width:100%;border:1px solid var(--line);background:#131313;border-radius:15px;padding:12px}
+.model-card:hover,.brand-card:hover{border-color:var(--gold)}
+.scooter-image{height:135px;width:100%;object-fit:contain;display:block;background:transparent}
+.image-placeholder{height:135px;display:flex;align-items:center;justify-content:center;color:#777;text-align:center;font-size:12px;border-bottom:1px solid #242424;margin-bottom:10px}
+.model-card strong{display:block;margin:10px 0 5px}
+.model-card small{color:var(--muted)}
+button{font:inherit}
+.gold-button{display:inline-block;background:var(--gold);color:#111;font-weight:800;text-decoration:none;border:0;border-radius:10px;padding:14px 18px;margin-top:16px}
+.secondary{background:#1c1c1c;color:#eee;border:1px solid var(--line);border-radius:10px;padding:12px 15px}
+.hidden{display:none!important}
+.back{margin:18px 0}
+.info{color:#bbb;line-height:1.6}
+.note{border:1px solid #4a3c20;background:#17140d;color:#d9c99e;border-radius:12px;padding:14px;line-height:1.5;font-size:13px;margin-top:20px}
+footer{border-top:1px solid var(--line);padding:22px 18px;text-align:center;color:#777;font-size:12px}
+@media(max-width:520px){.brands,.models{grid-template-columns:1fr 1fr}.card{padding:13px}.scooter-image,.image-placeholder{height:110px}header{align-items:flex-start;flex-direction:column}nav a{margin:0 12px 0 0}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">STI · SCOOTER TUNING INFOS</div>
+  <nav><a href="#" onclick="showHome();return false">Start</a><a href="#modelle">Modelle</a><a href="#wissen">Wissen</a></nav>
+</header>
+<main>
+  <section id="home">
+    <div class="hero">
+      <div class="eyebrow">TECHNIK · WARTUNG · WISSEN</div>
+      <h1>Dein Scooter.<br><span>Dein Wissen.</span></h1>
+      <p class="lead">Informationen zu Ninebot / Segway und Xiaomi – von Bauteilen und Fehlercodes bis zu Wartung und passenden Ersatzteilen.</p>
+    </div>
+    <h2 class="section-title" id="modelle">Wähle deine Marke</h2>
+    <div class="brands">
+      <button class="card brand-card" onclick="showBrand('ninebot')"><strong>NINEBOT / SEGWAY</strong><small>Modelle und technische Infos ansehen →</small></button>
+      <button class="card brand-card" onclick="showBrand('xiaomi')"><strong>XIAOMI</strong><small>Modelle und technische Infos ansehen →</small></button>
+    </div>
+    <div class="note" id="wissen"><b>Hinweis:</b> Die Seite behandelt sichere Wartung und technisch passende, zulässige Umbauten. Veränderungen, die den Scooter im öffentlichen Verkehr unzulässig machen, werden nicht als Straßenverkehrs-Tuning angeleitet.</div>
+  </section>
+
+  <section id="brandView" class="hidden">
+    <button class="secondary back" onclick="showHome()">← Zurück zur Markenauswahl</button>
+    <div class="eyebrow">MODELLAUSWAHL</div>
+    <h2 class="section-title" id="brandTitle"></h2>
+    <div class="models" id="modelGrid"></div>
+  </section>
+
+  <section id="detailView" class="hidden">
+    <button class="secondary back" onclick="backToBrand()">← Zurück zu den Modellen</button>
+    <div class="eyebrow">SCOOTER-PROFIL</div>
+    <h2 class="section-title" id="detailTitle"></h2>
+    <p class="info">Hier findest du künftig modellbezogene Informationen zu technischen Daten, Wartung, Fehlercodes, Ersatzteilen und sicheren Reparaturen.</p>
+    <div class="card">
+      <b style="color:var(--gold)">Community und weitere Hilfe</b>
+      <p class="info">Tausche dich mit anderen Scooter-Fans aus und stelle Fragen auf unserem Discord-Server.</p>
+      <a class="gold-button" href="https://discord.gg/V7MK7xRPN" target="_blank" rel="noopener">Discord-Server beitreten ↗</a>
+    </div>
+  </section>
+</main>
+<footer>© Scooter Tuning Infos · Unabhängige Informationsseite</footer>
+<script>
+const models={
+ ninebot:["Ninebot E2 Pro","Ninebot MAX G2","Ninebot MAX G30D","Ninebot F2"],
+ xiaomi:["Xiaomi Electric Scooter 4","Xiaomi Electric Scooter 4 Pro","Xiaomi Electric Scooter 4 Ultra","Xiaomi Electric Scooter 5"]
+};
+let currentBrand="ninebot";
+function showHome(){
+ document.getElementById("home").classList.remove("hidden");
+ document.getElementById("brandView").classList.add("hidden");
+ document.getElementById("detailView").classList.add("hidden");
+}
+function showBrand(brand){
+ currentBrand=brand;
+ document.getElementById("home").classList.add("hidden");
+ document.getElementById("detailView").classList.add("hidden");
+ document.getElementById("brandView").classList.remove("hidden");
+ document.getElementById("brandTitle").textContent=brand==="ninebot"?"Ninebot / Segway":"Xiaomi";
+ const grid=document.getElementById("modelGrid");grid.innerHTML="";
+ models[brand].forEach(name=>{
+  const button=document.createElement("button");
+  button.className="model-card";
+  button.innerHTML='<div class="image-placeholder">Scooter-Freisteller<br>PNG-Bild folgt</div><strong></strong><small>Informationen ansehen →</small>';
+  button.querySelector("strong").textContent=name;
+  button.addEventListener("click",()=>showDetail(name));
+  grid.appendChild(button);
+ });
+}
+function showDetail(name){
+ document.getElementById("brandView").classList.add("hidden");
+ document.getElementById("detailView").classList.remove("hidden");
+ document.getElementById("detailTitle").textContent=name;
+}
+function backToBrand(){showBrand(currentBrand)}
+</script>
+</body>
+</html>
